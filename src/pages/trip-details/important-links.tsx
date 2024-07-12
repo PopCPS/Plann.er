@@ -1,7 +1,24 @@
 import { Link2, Plus } from "lucide-react";
 import { Button } from "../components/button";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+interface Links {
+  id: string,
+  title: string,
+  url: string
+}
 
 export function ImportantLinks() {
+
+  const { tripId } = useParams()
+  const [ links, setLinks ] = useState<Links[]>([])
+  
+  useEffect(() => {
+    axios.get(`/trips/${tripId}/links`).then(response => setLinks(response.data.links))
+  }, [tripId])
+  
   return(
     <div className="space-y-6">
       <span className="text-xl font-semibold">Links importantes</span>

@@ -6,6 +6,7 @@ import { format } from "date-fns"
 import { ptBR } from 'date-fns/locale'
 
 import "react-day-picker/dist/style.css"
+import { Input } from "../../components/input"
 
 interface DestinationAndDateStepProps {
   isGuestsInputOpen: boolean,
@@ -40,7 +41,7 @@ export function DestinationAndDateStep({
     : null
 
   return (
-    <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
+    <Input size="tall">
       <div className='flex items-center gap-2 flex-1'>
         <MapPin className='text-zinc-400 size-5' />
         <input 
@@ -91,6 +92,6 @@ export function DestinationAndDateStep({
           <ArrowRight className='size-5' />
         </Button>
       )}
-    </div>
+    </Input>
   )
 }
