@@ -46,7 +46,9 @@ Follow these instructions to set up and run the project locally.
    npm i
    npm run dev
 
-###Access the Application
-###Once both projects are running, you can access the Plann.er app at http://localhost:5173.
+### Access the Application
+
+## Once both projects are running, you can access the Plann.er app at http://localhost:5173.
+
 
    
