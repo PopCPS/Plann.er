@@ -1,34 +1,39 @@
-import { Mail, User, X } from "lucide-react";
+import { Mail, User } from "lucide-react";
 import { FormEvent } from "react";
 import { Button } from "../components/button";
 import { Modal } from "../components/modal";
+import { DateRange } from "react-day-picker";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface ConfirmTripModalProps {
   closeConfirmTripModal: () => void,
   createTrip: (event: FormEvent<HTMLFormElement>) => void,
-  setOwnerName: (ownerName: string) => void
-  setOwnerEmail: (ownerEmail: string) => void
+  setOwnerName: (ownerName: string) => void,
+  setOwnerEmail: (ownerEmail: string) => void,
+  destination: string,
+  eventStartAndEndDates: DateRange | undefined,
 }
 
 export function ConfirmTripModal({
   closeConfirmTripModal,
   createTrip,
   setOwnerName,
-  setOwnerEmail
+  setOwnerEmail,
+  destination,
+  eventStartAndEndDates
 }: ConfirmTripModalProps) {
-  return (
-    <Modal>
-      <div className='w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5'>
-        <div className='space-y-2'>
-          <div className='flex items-center justify-between'>
-            <h2 className='text-lg'>Confirmar criação da viagem</h2>
-            <button onClick={closeConfirmTripModal}>
-              <X className='size-5 text-zinc-400' />
-            </button>
-          </div>
-          <p className='text-sm text-zinc-400'>Para concluir a criação da viagem para <span className='text-zinc-100 font-semibold'>Florianópolis, Brasil</span> nas datas de <span className='text-zinc-100 font-semibold'>16 a 27 de Agosto de 2024</span> preencha seus dados abaixo:</p>
-        </div>
 
+  const displayedDate = eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to
+    ? format(eventStartAndEndDates.from, "d' de 'LLL", {locale: ptBR}).concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL", {locale: ptBR}))
+    : null
+
+  return (
+    <Modal 
+      title="Confirmar criação da viagem" 
+      description={`Para concluir a criação da viagem para ${destination} nas datas de ${displayedDate} preencha seus dados abaixo:`} 
+      closeModal={closeConfirmTripModal}
+    >
         <form onSubmit={createTrip} className='space-y-3'>
           <div className='space-y-2'>
             <div className='flex items-center flex-1 gap-2 h-14 px-5 border border-zinc-800 bg-zinc-950 rounded-lg'>
@@ -56,7 +61,6 @@ export function ConfirmTripModal({
             Confirmar criação da viagem
           </Button>
         </form>
-      </div>  
     </Modal>
   )
 }

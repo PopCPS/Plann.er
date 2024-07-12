@@ -2,12 +2,12 @@ import type { ComponentProps, ReactNode } from "react"
 import { tv, VariantProps } from 'tailwind-variants'
 
 const buttonVariants = tv({
-  base: 'font-medium px-5 rounded-lg flex gap-2 items-center justify-center',
+  base: 'border font-medium px-5 rounded-lg flex gap-2 items-center justify-center',
 
   variants: {
     variant: {
-      primary: 'bg-lime-300 text-lime-950 hover:bg-lime-400',
-      secondary: 'bg-zinc-800 text-zinc-200 hover:bg-zinc-700'
+      primary: 'border-lime-300 bg-lime-300 text-lime-950 hover:bg-lime-400',
+      secondary: 'border-zinc-800 bg-zinc-800 text-zinc-200 hover:bg-zinc-700'
     },
 
     size: {

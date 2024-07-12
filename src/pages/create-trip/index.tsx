@@ -92,8 +92,6 @@ export function CreateTripPage() {
       return
     }
 
-    console.log(ownerName)
-
     const response = await api.post('/trips', {
       destination,
       starts_at: eventStartAndEndDates.from,
@@ -158,6 +156,8 @@ export function CreateTripPage() {
           createTrip={createTrip}
           setOwnerName={setOwnerName}
           setOwnerEmail={setOwnerEmail}
+          destination={destination}
+          eventStartAndEndDates={eventStartAndEndDates}
         />
       )}
     </div>

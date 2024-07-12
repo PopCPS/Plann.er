@@ -6,10 +6,16 @@ import { Guests } from "./guests"
 import { Activities } from "./activities"
 import { DestinationAndDateHeader } from "./destination-and-date-header"
 import { Button } from "../components/button"
+import { CreateImportantLinkModal } from "./create-important-link-modal"
+import { ConfirmAttendanceModal } from "./confirm-attendance-modal"
+import { Participants } from "../../lib/participants"
 
 export function TripDetailsPage() {
 
 	const [ isCreateActivityModalOpen, setIsCreateActivityModalOpen ] = useState(false)
+	const [ isCreateImportantLinkModalOpen, setIsCreateImportantLinkModalOpen ] = useState(false)
+	const [ isConfirmAttendanceModalOpen, setIsConfirmAttendanceModalOpen ] = useState(false)
+	const [ participants, setParticipants ] = useState<Participants[]>([])
 
 	function openCreateActivityModal() {
 		setIsCreateActivityModalOpen(true)
@@ -17,6 +23,22 @@ export function TripDetailsPage() {
 
 	function closeCreateActivityModal() {
 		setIsCreateActivityModalOpen(false)
+	}
+
+	function openCreateImportantLinkModal() {
+		setIsCreateImportantLinkModalOpen(true)
+	}
+
+	function closeCreateImportantLinkModal() {
+		setIsCreateImportantLinkModalOpen(false)
+	}
+
+	function openConfirmAttendanceModal() {
+		setIsConfirmAttendanceModalOpen(true)
+	}
+
+	function closeConfirmAttendanceModal() {
+		setIsConfirmAttendanceModalOpen(false)
 	}
 
 	return (
@@ -38,9 +60,15 @@ export function TripDetailsPage() {
 				</div>
 
 				<aside className="w-80 space-y-6">
-					<ImportantLinks />
+					<ImportantLinks
+						openCreateImportantLinkModal={openCreateImportantLinkModal}
+					/>
 					<div className="w-full h-px bg-zinc-800" />
-					<Guests />
+					<Guests
+						participants={participants}
+						setParticipants={setParticipants}
+						openConfirmAttendanceModal={openConfirmAttendanceModal}
+					/>
 				</aside>
 
 			</main>
@@ -51,6 +79,19 @@ export function TripDetailsPage() {
 				/>
 			)}
 
+			{isCreateImportantLinkModalOpen && (
+				<CreateImportantLinkModal
+					closeCreateImportantLinkModal={closeCreateImportantLinkModal}
+				/>
+			)}
+
+			{isConfirmAttendanceModalOpen && (
+				<ConfirmAttendanceModal 
+					closeConfirmAttendanceModal={closeConfirmAttendanceModal}
+					setParticipants={setParticipants}
+					participants={participants}
+				/>
+			)}
 		</div>
 	)
 }

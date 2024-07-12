@@ -1,20 +1,23 @@
 import { CircleCheck, CircleDashed, UserCog } from "lucide-react";
 import { Button } from "../components/button";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { api } from "../../lib/axios";
+import { Participants } from "../../lib/participants";
 
-interface Participants {
-  id: string,
-  name: string,
-  email: string,
-  is_confirmed: boolean,
+interface GuestsProps {
+  openConfirmAttendanceModal: () => void,
+  setParticipants: React.Dispatch<React.SetStateAction<Participants[]>>,
+  participants: Participants[],
 }
 
-export function Guests() {
+export function Guests({
+  openConfirmAttendanceModal,
+  setParticipants,
+  participants,
+}: GuestsProps) {
 
   const { tripId } = useParams()
-  const [ participants, setParticipants ] = useState<Participants[]>([]) 
 
   useEffect(() => {
     api.get(`/trips/${tripId}/participants`).then(response => setParticipants(response.data.participants))
@@ -42,7 +45,7 @@ export function Guests() {
           )
         })}
 
-        <Button type='submit' variant="secondary" size="full">
+        <Button onClick={openConfirmAttendanceModal} variant="secondary" size="full">
           <UserCog />
           Gerenciar convidados
         </Button>
