@@ -9,10 +9,7 @@ import { Participants } from "../../lib/participants";
 
 interface ConfirmAttendanceModalProps {
   closeConfirmAttendanceModal: () => void,
-  // setParticipants: React.Dispatch<React.SetStateAction<Participants[]>>,
   participants: Participants[],
-  // destination: string,
-  // displayedDate: DateRange | undefined
 }
 
 export function ConfirmAttendanceModal({
