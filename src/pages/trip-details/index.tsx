@@ -119,7 +119,6 @@ export function TripDetailsPage() {
 			{isConfirmAttendanceModalOpen && (
 				<ConfirmAttendanceModal 
 					closeConfirmAttendanceModal={closeConfirmAttendanceModal}
-					setParticipants={setParticipants}
 					participants={participants}
 				/>
 			)}
