@@ -1,14 +1,14 @@
 import { Link2, Plus } from "lucide-react";
 import { Button } from "../components/button";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { api } from "../../lib/axios";
 
 interface Links {
   id: string,
   title: string,
-  url: string
-}
+  url: string,
+}[]
 
 interface ImportantLinksProps {
   openCreateImportantLinkModal: () => void
@@ -22,7 +22,7 @@ export function ImportantLinks({
   const [ links, setLinks ] = useState<Links[]>([])
   
   useEffect(() => {
-    axios.get(`/trips/${tripId}/links`).then(response => setLinks(response.data.links))
+    api.get(`/trips/${tripId}/links`).then(response => setLinks(response.data.links))
   }, [tripId])
 
   return(
@@ -37,7 +37,7 @@ export function ImportantLinks({
               <div key={link.id} className="flex items-center justify-between">
                 <div className="flex flex-col space-y-1.5 max-w-60">								
                   <span className="font-semibold text-zinc-100">{link.title}</span>
-                  <a href="#" className="text-xs text-zinc-400 truncate hover:text-zinc-200">
+                  <a href={link.url} target="blank" className="text-xs text-zinc-400 truncate hover:text-zinc-200">
                     {link.url}
                   </a>
                 </div>

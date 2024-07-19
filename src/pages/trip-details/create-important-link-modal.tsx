@@ -21,14 +21,16 @@ export function CreateImportantLinkModal({
     const data = new FormData(event.currentTarget)
 
     const title = data.get('title')?.toString()
-    const link = data.get('link')?.toString()
+    const url = data.get('url')?.toString()
 
     await api.post(`/trips/${tripId}/links`, {
       title,
-      link
+      url
     })
 
-    console.log({ title, link })
+    console.log({ title, url })
+
+    window.document.location.reload()
   }
 
   return (
@@ -51,7 +53,7 @@ export function CreateImportantLinkModal({
           <Link2 className="size-5 text-zinc-400" />
           <input 
             className="bg-transparent text-lg  placeholder-zinc-400 flex-1 outline-none" 
-            name="link" 
+            name="url" 
             placeholder="URL" 
         />
         </Input>

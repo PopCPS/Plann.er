@@ -9,7 +9,7 @@ import { Participants } from "../../lib/participants";
 
 interface ConfirmAttendanceModalProps {
   closeConfirmAttendanceModal: () => void,
-  setParticipants: React.Dispatch<React.SetStateAction<Participants[]>>,
+  // setParticipants: React.Dispatch<React.SetStateAction<Participants[]>>,
   participants: Participants[],
   // destination: string,
   // displayedDate: DateRange | undefined
@@ -17,7 +17,6 @@ interface ConfirmAttendanceModalProps {
 
 export function ConfirmAttendanceModal({
   closeConfirmAttendanceModal,
-  setParticipants,
   participants,
 }: ConfirmAttendanceModalProps) {
 
@@ -34,10 +33,10 @@ export function ConfirmAttendanceModal({
     }
 
     email && ( 
-      console.log(`/participants/${findGuestByEmail(participants, email)}/confirm`),
-      api.patch(`/participants/${findGuestByEmail(participants, email)}/confirm`)
+      api.get(`/participants/${findGuestByEmail(participants, email)}/confirm`)
     )
 
+    window.location.reload()
   }
 
   return (

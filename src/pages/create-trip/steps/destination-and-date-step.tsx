@@ -4,7 +4,6 @@ import { useState } from "react"
 import { DateRange, DayPicker } from "react-day-picker"
 import { format } from "date-fns"
 import { ptBR } from 'date-fns/locale'
-
 import "react-day-picker/dist/style.css"
 import { Input } from "../../components/input"
 import { Modal } from "../../components/modal"

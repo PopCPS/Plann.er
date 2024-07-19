@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CreateActivityModal } from "./create-activity-modal"
 import { ImportantLinks } from "./important-links"
 import { Guests } from "./guests"
@@ -9,13 +9,27 @@ import { Button } from "../components/button"
 import { CreateImportantLinkModal } from "./create-important-link-modal"
 import { ConfirmAttendanceModal } from "./confirm-attendance-modal"
 import { Participants } from "../../lib/participants"
+import { ChangeDateAndLocationModal } from "./change-date-and-location-modal"
+import { useParams } from "react-router-dom"
+import { api } from "../../lib/axios"
+
+interface Trip {
+  id: string,
+  destination: string,
+  starts_at: string,
+  ends_at: string,
+  is_confirmed: boolean,
+}
 
 export function TripDetailsPage() {
 
 	const [ isCreateActivityModalOpen, setIsCreateActivityModalOpen ] = useState(false)
 	const [ isCreateImportantLinkModalOpen, setIsCreateImportantLinkModalOpen ] = useState(false)
 	const [ isConfirmAttendanceModalOpen, setIsConfirmAttendanceModalOpen ] = useState(false)
+	const [ isChangeDateAndLocalModalOpen , setChangeDateAndLocalModalOpen ] = useState(false)
 	const [ participants, setParticipants ] = useState<Participants[]>([])
+	const { tripId } = useParams()
+  const [ trip, setTrip ] = useState<Trip | undefined>() 
 
 	function openCreateActivityModal() {
 		setIsCreateActivityModalOpen(true)
@@ -41,10 +55,27 @@ export function TripDetailsPage() {
 		setIsConfirmAttendanceModalOpen(false)
 	}
 
+	function openChangeDateAndLocationModal() {
+		setChangeDateAndLocalModalOpen(true)
+	}
+
+	function closeChangeDateAndLocationModal() {
+		setChangeDateAndLocalModalOpen(false)
+	}
+
+  useEffect(() => {
+    api.get(`/trips/${tripId}`).then(async response => await setTrip(response.data.trip))
+  }, [tripId])
+
 	return (
 		<div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
 			
-			<DestinationAndDateHeader />
+			{trip && (
+				<DestinationAndDateHeader
+					openModal={openChangeDateAndLocationModal}
+					trip={trip}
+				/>
+			)}
 
 			<main className="flex gap-16 px-4">
 				<div className="flex-1 space-y-6">
@@ -91,6 +122,17 @@ export function TripDetailsPage() {
 					setParticipants={setParticipants}
 					participants={participants}
 				/>
+			)}
+
+			{trip && (
+				isChangeDateAndLocalModalOpen && (
+					<ChangeDateAndLocationModal
+						closeModal={closeChangeDateAndLocationModal}
+						destination={trip.destination}
+						starts_at={trip.starts_at}
+						ends_at={trip.ends_at}
+					/>
+				)
 			)}
 		</div>
 	)
