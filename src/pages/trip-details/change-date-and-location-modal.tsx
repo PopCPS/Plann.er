@@ -8,6 +8,7 @@ import { ptBR } from 'date-fns/locale'
 import { Button } from "../components/button";
 import { api } from "../../lib/axios";
 import { useParams } from "react-router-dom";
+import { Loading } from "../components/loading";
 
 interface ChangeDateAndLocationModalProps {
   closeModal: () => void,
@@ -25,6 +26,7 @@ export function ChangeDateAndLocationModal({
 
   const [ isDatePickerOpen, setIsDatePickerOpen ] = useState(false)
   const [ eventStartAndEndDates, setEventStartAndEndDates ] = useState<DateRange | undefined>()
+  const [ isLoading, setIsLoading ] = useState(false)
   const { tripId } = useParams() 
 
   function openDatePicker() {
@@ -50,11 +52,15 @@ export function ChangeDateAndLocationModal({
       return
     }
 
+    setIsLoading(true)
+
     api.put(`/trips/${tripId}`, {
       destination,
       starts_at: eventStartAndEndDates.from,
       ends_at: eventStartAndEndDates.to
     })
+
+    setIsLoading(false)
 
     window.location.reload()
   }
@@ -109,6 +115,9 @@ export function ChangeDateAndLocationModal({
         )}
 
       </form>
+      {isLoading && (
+        <Loading />
+      )}
     </Modal>
   )
 }

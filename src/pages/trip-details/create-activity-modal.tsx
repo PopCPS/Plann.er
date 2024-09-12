@@ -1,10 +1,11 @@
 import { Calendar, Tag } from "lucide-react";
 import { Button } from "../components/button";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { api } from "../../lib/axios";
 import { useParams } from "react-router-dom";
 import { Modal } from "../components/modal";
 import { Input } from "../components/input";
+import { Loading } from "../components/loading";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void
@@ -15,9 +16,12 @@ export function CreateActivityModal({
 }: CreateActivityModalProps) {
   const { tripId } = useParams()
 
+  const [ isLoading, setIsLoading ] = useState(false)
 
   async function createActivity(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    setIsLoading(true)
 
     const data = new FormData(event.currentTarget)
 
@@ -29,6 +33,7 @@ export function CreateActivityModal({
       occurs_at
     })
 
+    setIsLoading(false)
     window.document.location.reload()
   }
 
@@ -58,6 +63,9 @@ export function CreateActivityModal({
           Salvar atividade
         </Button>
       </form>
+      {isLoading && (
+        <Loading />
+      )}
     </Modal>
   )
 }

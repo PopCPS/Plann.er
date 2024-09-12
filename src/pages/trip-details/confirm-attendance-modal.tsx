@@ -3,9 +3,10 @@ import { Mail, User } from "lucide-react";
 import { Input } from "../components/input";
 import { Modal } from "../components/modal";
 import { Button } from "../components/button";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { api } from "../../lib/axios";
 import { Participants } from "../../lib/participants";
+import { Loading } from "../components/loading";
 
 interface ConfirmAttendanceModalProps {
   closeConfirmAttendanceModal: () => void,
@@ -17,8 +18,12 @@ export function ConfirmAttendanceModal({
   participants,
 }: ConfirmAttendanceModalProps) {
 
+  const [ isLoading, setIsLoading ] = useState(false)
+
   async function confirmAttendance(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    setIsLoading(true)
 
     const data = new FormData(event.currentTarget)
 
@@ -32,6 +37,8 @@ export function ConfirmAttendanceModal({
     email && ( 
       api.get(`/participants/${findGuestByEmail(participants, email)}/confirm`)
     )
+
+    setIsLoading(false)
 
     window.location.reload()
   }
@@ -66,6 +73,9 @@ export function ConfirmAttendanceModal({
           Confirmar minha presença
         </Button>
       </form>
+      {isLoading && (
+        <Loading />
+      )}
     </Modal>
   )
 }

@@ -58,7 +58,7 @@ export function CreateImportantLinkModal({
         />
         </Input>
         <Button size="full">
-            Salvar link
+            Criar link
         </Button>
       </form>
 

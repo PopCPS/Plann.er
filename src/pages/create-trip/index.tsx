@@ -6,6 +6,7 @@ import { DestinationAndDateStep } from "./steps/destination-and-date-step";
 import { InviteGuestsStep } from "./steps/invite-guests-step";
 import { DateRange } from "react-day-picker";
 import { api } from "../../lib/axios";
+import { Loading } from "../components/loading";
 
 export function CreateTripPage() {
   const navigate = useNavigate()
@@ -20,6 +21,7 @@ export function CreateTripPage() {
   const [ownerName, setOwnerName] = useState('')
   const [ownerEmail, setOwnerEmail] = useState('')
   const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DateRange | undefined>()
+  const [ isLoading, setIsLoading ] = useState(false)
 
   function openGuestsInput() {
     setIsGuestsInputOpen(true)
@@ -59,10 +61,14 @@ export function CreateTripPage() {
       return
     }
 
+    setIsLoading(true)
+
     setEmailsToInvite([
       ...emailsToInvite,
       email
     ])
+
+    setIsLoading(false)
 
     event.currentTarget.reset()
   }
@@ -92,6 +98,8 @@ export function CreateTripPage() {
       return
     }
 
+    setIsLoading(true)
+
     const response = await api.post('/trips', {
       destination,
       starts_at: eventStartAndEndDates.from,
@@ -102,6 +110,8 @@ export function CreateTripPage() {
     })
 
     const { tripId } = response.data
+
+    setIsLoading(false)
 
     navigate(`/trips/${tripId}`)
   }
@@ -159,6 +169,9 @@ export function CreateTripPage() {
           destination={destination}
           eventStartAndEndDates={eventStartAndEndDates}
         />
+      )}
+      {isLoading && (
+        <Loading />
       )}
     </div>
   );
