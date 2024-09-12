@@ -1,7 +1,6 @@
 import { X } from "lucide-react";
 import { ReactNode } from "react";
 import { tv, VariantProps } from 'tailwind-variants'
-import { Loading } from "./loading";
 
 const modalVariants = tv({
   base: 'rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5',
